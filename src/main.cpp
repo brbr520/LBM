@@ -13,16 +13,22 @@
 #include <vector>
 #include "input.h"
 #include "node.h"
+#include "lattice.h"
 //#include "tools.h"
 
 int main(int argc, char *argv[]) {
 
     Input inputs;
-    Node testnode;
+    std::vector<std::vector<Node> > lattice = initialize_lattice(inputs);
+    std::vector<std::vector<Node> > lattnew = initialize_lattice(inputs);
 
-
-//    std::vector<std::vector<Node> > lattice = create_lattice(inputs);
-
+    for (int j = 0; j < inputs.ny+2; j++) {
+        for (int i = 0; i < inputs.nx+2; i++) {
+            std::cout << lattice[j][i].f[6] << " ";
+        }
+        std::cout << std::endl;
+    }
+    
 
 
 //    std::vector<std::vector<Node> > lattnew = create_lattice(argc, argv);
