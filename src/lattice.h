@@ -15,5 +15,6 @@
 std::vector<std::vector<Node> > initialize_lattice(Input);
 void create_lattice(Input, std::vector<std::vector<Node> > &);
 void set_boundaries(Input, std::vector<std::vector<Node> > &);
+void update_nodes(Input, std::vector<std::vector<Node> > &);
 
 #endif

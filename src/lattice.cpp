@@ -18,7 +18,6 @@
 std::vector<std::vector<Node> > initialize_lattice (Input inputs) {
     std::vector<std::vector<Node> > lattice;
     create_lattice(inputs, lattice);
-    lattice.f = lattice.feq;
     set_boundaries(inputs, lattice);
     return lattice;
 }
@@ -60,4 +59,15 @@ void set_boundaries(Input inputs,
     lattice[0][inputs.nx+1].f[7] = lattice[1][1].f[5];
     lattice[inputs.ny+1][0].f[5] = lattice[inputs.ny][inputs.nx].f[7];
     lattice[inputs.ny+1][inputs.nx+1].f[6] = lattice[inputs.ny][1].f[8];
+}
+
+// catch-all function to loop over every node and update properties
+void update_nodes(Input inputs,
+                  std::vector<std::vector<Node> > &lattice) {
+    for (int j = 1; j < inputs.ny+1; j++) {
+        for (int i = 1; i < inputs.nx+1; i++) {
+            lattice[j][i].update_macroscopic_properties();
+            lattice[j][i].collide(inputs);
+        }
+    }
 }
