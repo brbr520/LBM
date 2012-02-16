@@ -47,3 +47,9 @@ void Input::check(void) {
     // TODO
     // Eventually I will be a function to check my inputs for sanity.
 }
+
+double Input::calculate_gradient(void) {
+    double mu(rho0*(1.0/omega-1.0/2.0)*(1.0/3.0));
+    double temp_gradient(8.0*mu*umax/(ny*ny));
+    return temp_gradient;
+}

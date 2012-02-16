@@ -153,10 +153,22 @@ void Node::collide(Input inputs) {
     }
 }
 
-
-/*  // force calculation not yet implemented (not required for ex 5/6)
-std::vector<double> calculate_force(std::vector<std::vector<Node> > &old_system,
-                                    std::vector<std::vector<Node> > &new_system,
-                                    int i, int j, double omega) {
-    new_system[j][i].f
-*/
+// update f with delta f
+void Node::update_f(Input inputs) {
+    for (int i = 0; i < 9; i++) {
+        switch(i) {
+            case 1:
+            case 5:
+            case 8:
+                f[i] += inputs.gradient/6;
+                break;
+            case 3:
+            case 6:
+            case 7:
+                f[i] -= inputs.gradient/6;
+                break;
+            default:
+                break;
+        }
+    }
+}

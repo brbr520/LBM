@@ -22,6 +22,7 @@ class Node {
     }
     void update_macroscopic_properties(void);
     void collide(Input);
+    void update_f(Input);
 
     private:
     double u, v, rho;

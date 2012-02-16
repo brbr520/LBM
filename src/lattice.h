@@ -19,5 +19,6 @@ void update_nodes(Input, std::vector<std::vector<Node> > &);
 void stream(Input,
             std::vector<std::vector<Node> > &,
             std::vector<std::vector<Node> > &);
+void apply_forcing_term(Input, std::vector<std::vector<Node> > &);
 
 #endif

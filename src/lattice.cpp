@@ -91,3 +91,12 @@ void stream(Input inputs,
     }
 }
 
+// applies the forcing term G to f
+void apply_forcing_term(Input inputs,
+                        std::vector<std::vector<Node> > &lattice) {
+    for (int j = 1; j < inputs.ny+1; j++) {
+        for (int i = 1; i < inputs.nx+1; i++) {
+            lattice[j][i].update_f(inputs);
+        }
+    }
+}

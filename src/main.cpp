@@ -14,7 +14,6 @@
 #include "input.h"
 #include "node.h"
 #include "lattice.h"
-//#include "tools.h"
 
 int main(int argc, char *argv[]) {
 
@@ -27,13 +26,9 @@ int main(int argc, char *argv[]) {
         update_nodes(inputs, lattice);
         set_boundaries(inputs, lattice);
         stream(inputs, lattice, lattnew);
+        apply_forcing_term(inputs, lattnew);
     }
 
-//    double gradient(calculate_gradient(argc, argv));
-//
-//                stream(lattice, lattnew, i, j);
-//            }
-//        }
 //        if (check_convergence(lattice, lattnew, atoi(argv[1]), atoi(argv[2])) == true) {
 //            std::cout << "conv reached after " << timestep << " steps" << std::endl;
 //            break;
