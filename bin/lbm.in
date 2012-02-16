@@ -5,8 +5,8 @@
 # to a certain keyword order. I think I'm most proud of this piece of code.
 
 # Mesh Parameters
-nx      10
-ny      20
+nx      5
+ny      10
 
 # Fluid Parameters
 u0      0.1
