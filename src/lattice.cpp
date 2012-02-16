@@ -71,3 +71,23 @@ void update_nodes(Input inputs,
         }
     }
 }
+
+// streaming operator
+void stream(Input inputs,
+            std::vector<std::vector<Node> > &lattold,
+            std::vector<std::vector<Node> > &lattnew) {
+    for (int j = 1; j < inputs.ny+1; j++) {
+        for (int i = 1; i < inputs.nx+1; i++) {
+            /*0*/ lattnew[j  ][i  ].f[0] = lattold[j][i].f[0];
+            /*1*/ lattnew[j  ][i+1].f[1] = lattold[j][i].f[1];
+            /*2*/ lattnew[j+1][i  ].f[2] = lattold[j][i].f[2];
+            /*3*/ lattnew[j  ][i-1].f[3] = lattold[j][i].f[3];
+            /*4*/ lattnew[j-1][i  ].f[4] = lattold[j][i].f[4];
+            /*5*/ lattnew[j+1][i+1].f[5] = lattold[j][i].f[5];
+            /*6*/ lattnew[j+1][i-1].f[6] = lattold[j][i].f[6];
+            /*7*/ lattnew[j-1][i-1].f[7] = lattold[j][i].f[7];
+            /*8*/ lattnew[j-1][i+1].f[8] = lattold[j][i].f[8];
+        }
+    }
+}
+

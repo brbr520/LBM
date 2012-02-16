@@ -26,6 +26,7 @@ int main(int argc, char *argv[]) {
     for (int timestep = 0; timestep < inputs.nts_max; timestep++) {
         update_nodes(inputs, lattice);
         set_boundaries(inputs, lattice);
+        stream(inputs, lattice, lattnew);
     }
 
 //    double gradient(calculate_gradient(argc, argv));
