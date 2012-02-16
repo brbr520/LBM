@@ -16,19 +16,19 @@
 
 class Node {
     public:
-    // constructor
+    std::vector<double> f, feq;
     Node(Input inputs) {
         initialize(inputs);
     }
-
-//    double calculate_density(void);
-//    std::vector<double> calculate_velocity(void);
+    void update_macroscopic_properties(void);
+    void collide(Input);
 
     private:
     double u, v, rho;
-    std::vector<double> f, feq;
     void initialize(Input);
     void calculate_feq(void);
+    void calculate_density(void);
+    void calculate_velocity(void);
 };
 
 #endif

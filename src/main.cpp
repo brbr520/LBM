@@ -22,27 +22,19 @@ int main(int argc, char *argv[]) {
     std::vector<std::vector<Node> > lattice = initialize_lattice(inputs);
     std::vector<std::vector<Node> > lattnew = initialize_lattice(inputs);
 
-    for (int j = 0; j < inputs.ny+2; j++) {
-        for (int i = 0; i < inputs.nx+2; i++) {
-            std::cout << lattice[j][i].f[6] << " ";
+    // time loop
+    for (int timestep = 0; timestep < inputs.nts_max; timestep++) {
+        for (int j = 1; j < inputs.ny+1; j++) {
+            for (int i = 1; i < inputs.nx+1; i++) {
+                lattice[j][i].update_macroscopic_properties();
+                lattice[j][i].collide(Input);
+            }
         }
-        std::cout << std::endl;
     }
-    
 
-
-//    std::vector<std::vector<Node> > lattnew = create_lattice(argc, argv);
 //    double gradient(calculate_gradient(argc, argv));
 //
-//    // time loop
-//    for (int timestep = 0; timestep < 100; timestep++) {
-//        for (int j = 1; j < atoi(argv[2])+1; j++) {
-//            for (int i = 1; i < atoi(argv[1])+1; i++) {
 //                stream(lattice, lattnew, i, j);
-//                lattnew[j][i].rho = lattice[j][i].calculate_density();
-//                lattnew[j][i].u   = lattice[j][i].calculate_velocity();
-//                lattnew[j][i].feq = lattice[j][i].calculate_feq();
-//                lattnew[j][i].f   = lattice[j][i].feq;
 //            }
 //        }
 //        if (check_convergence(lattice, lattnew, atoi(argv[1]), atoi(argv[2])) == true) {

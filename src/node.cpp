@@ -81,21 +81,25 @@ void Node::calculate_feq(void) {
     }
 }
 
-/*
+// catch-all function to update macroscopic properties of a node
+void Node::update_macroscopic_properties(void) {
+    calculate_density();
+    calculate_velocity();
+    calculate_feq();
+}
+
 // calculate density
-double Node::calculate_density(void) {
-    double rho(0.0);
+void Node::calculate_density(void) {
+    double temp_rho(0.0);
     for (int i = 0; i < 9; i++) {
-        rho += f[i];
+        temp_rho += f[i];
     }
-    return rho;
+    rho = temp_rho;
 }
 
 // calculate velocity
-std::vector<double> Node::calculate_velocity(void) {
-    std::vector<double> velocity;
-    velocity.resize(2);
-    double cx, cy;
+void Node::calculate_velocity(void) {
+    double cx, cy, temp_u(0.0), temp_v(0.0);
     for (int i = 0; i < 9; i++) {
         switch (i) {
             case 0:
@@ -135,15 +139,21 @@ std::vector<double> Node::calculate_velocity(void) {
                 cy = -1.0;
                 break;
         }
-        velocity[0] += cx*f[i];
-        velocity[1] += cy*f[i];
+        temp_u += cx*f[i];
+        temp_v += cy*f[i];
     }
-    velocity[0] /= rho;
-    velocity[1] /= rho;
-    return velocity;
+    u = temp_u/rho;
+    v = temp_v/rho;
 }
 
-*/
+// collision operator
+void Node::collide(Input inputs) {
+    for (int i = 0; i < 9; i++) {
+        f[i] += inputs.omega*(feq[i]-f[i]);
+    }
+}
+
+
 /*  // force calculation not yet implemented (not required for ex 5/6)
 std::vector<double> calculate_force(std::vector<std::vector<Node> > &old_system,
                                     std::vector<std::vector<Node> > &new_system,
