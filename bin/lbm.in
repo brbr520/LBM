@@ -1,9 +1,3 @@
-# Just an input file for my un-named LBM solver. At the moment (2/15/2012),
-# all fields are required and the parser does not give any errors when there
-# are missing fields. On the other hand, this parser is pretty cool because
-# it understands comment lines, like this one, blank lines, and is not bound
-# to a certain keyword order. I think I'm most proud of this piece of code.
-
 # Mesh Parameters
 nx      10
 ny      20
@@ -17,4 +11,4 @@ omega   1.25
 
 # Solver Parameters
 nts_max 1000
-epsilon 1e-8
+epsilon 0.00000001
