@@ -22,23 +22,18 @@ int main(int argc, char *argv[]) {
     std::vector<std::vector<Node> > lattice = initialize_lattice(inputs);
     std::vector<std::vector<Node> > lattnew = initialize_lattice(inputs);
 
-//    for (int j = 0; j < inputs.ny+2; j++) {
-//        std::cout.precision(16);
-//        std::cout << std::fixed << lattice[j][5].u << std::endl;
-//    }
-//
     // time loop
     for (int timestep = 0; timestep < inputs.nts_max; timestep++) {
         update_nodes(inputs, lattice);
         set_boundaries(inputs, lattice);
         stream(inputs, lattice, lattnew);
         apply_forcing_term(inputs, lattnew);
-        lattice = lattnew;
+//        lattice = lattnew;
     }
 
     for (int j = 0; j < inputs.ny+2; j++) {
         std::cout.precision(16);
-        std::cout << std::fixed << lattice[j][5].u << std::endl;
+        std::cout << std::fixed << lattice[j][inputs.nx/2].u << std::endl;
     }
 
     return EXIT_SUCCESS;

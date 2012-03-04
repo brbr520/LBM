@@ -4,7 +4,7 @@
  * Defines a class called lattice whith definitions for various properties.
  *
  * Eric Chen (eric.chen@rwth-aachen.de)
- * Updated 16 February 2012
+ * Updated 4 March 2012
  *
  * Released under the MIT License, see included LICENSE file for more info.
  */
@@ -40,17 +40,21 @@ void set_boundaries(Input inputs,
 
     // periodic boundaries along the x direction, not counting corners
     for (int j = 1; j < inputs.ny+1; j++) {
-        lattice[j][0].f = lattice[j][inputs.nx].f;
-        lattice[j][inputs.nx+1].f = lattice[j][1].f;
+        lattice[j][0].f[1] = lattice[j][inputs.nx].f[1];
+        lattice[j][0].f[5] = lattice[j][inputs.nx].f[5];
+        lattice[j][0].f[8] = lattice[j][inputs.nx].f[8];
+        lattice[j][inputs.nx+1].f[3] = lattice[j][1].f[3];
+        lattice[j][inputs.nx+1].f[6] = lattice[j][1].f[6];
+        lattice[j][inputs.nx+1].f[7] = lattice[j][1].f[7];
     }
 
     // bounce back boundaries along the y direction, not counting corners
     for (int i = 1; i < inputs.nx+1; i++) {
         lattice[0][i].f[7] = lattice[1][i-1].f[5];
-        lattice[0][i].f[4] = lattice[1][i].f[2];
+        lattice[0][i].f[4] = lattice[1][i  ].f[2];
         lattice[0][i].f[8] = lattice[1][i+1].f[6];
         lattice[inputs.ny+1][i].f[6] = lattice[inputs.ny][i-1].f[8];
-        lattice[inputs.ny+1][i].f[2] = lattice[inputs.ny][i].f[4];
+        lattice[inputs.ny+1][i].f[2] = lattice[inputs.ny][i  ].f[4];
         lattice[inputs.ny+1][i].f[5] = lattice[inputs.ny][i+1].f[7];
     }
 
@@ -79,26 +83,17 @@ void stream(Input inputs,
     for (int j = 1; j < inputs.ny+1; j++) {
         for (int i = 1; i < inputs.nx+1; i++) {
             lattnew[j][i].f[0] = lattold[j  ][i  ].f[0];
-            lattnew[j][i].f[1] = lattold[j  ][i+1].f[1];
+            lattnew[j][i].f[1] = lattold[j  ][i-1].f[1];
             lattnew[j][i].f[2] = lattold[j+1][i  ].f[2];
-            lattnew[j][i].f[3] = lattold[j  ][i-1].f[3];
+            lattnew[j][i].f[3] = lattold[j  ][i+1].f[3];
             lattnew[j][i].f[4] = lattold[j-1][i  ].f[4];
-            lattnew[j][i].f[5] = lattold[j+1][i+1].f[5];
-            lattnew[j][i].f[6] = lattold[j+1][i-1].f[6];
-            lattnew[j][i].f[7] = lattold[j-1][i-1].f[7];
-            lattnew[j][i].f[8] = lattold[j-1][i+1].f[8];
-//            lattnew[j  ][i  ].f[0] = lattold[j][i].f[0];
-//            lattnew[j  ][i+1].f[1] = lattold[j][i].f[1];
-//            lattnew[j+1][i  ].f[2] = lattold[j][i].f[2];
-//            lattnew[j  ][i-1].f[3] = lattold[j][i].f[3];
-//            lattnew[j-1][i  ].f[4] = lattold[j][i].f[4];
-//            lattnew[j+1][i+1].f[5] = lattold[j][i].f[5];
-//            lattnew[j+1][i-1].f[6] = lattold[j][i].f[6];
-//            lattnew[j-1][i-1].f[7] = lattold[j][i].f[7];
-//            lattnew[j-1][i+1].f[8] = lattold[j][i].f[8];
+            lattnew[j][i].f[5] = lattold[j+1][i-1].f[5];
+            lattnew[j][i].f[6] = lattold[j+1][i+1].f[6];
+            lattnew[j][i].f[7] = lattold[j-1][i+1].f[7];
+            lattnew[j][i].f[8] = lattold[j-1][i-1].f[8];
         }
     }
-} // TODO flip the equations
+}
 
 // applies the forcing term G to f
 void apply_forcing_term(Input inputs,
