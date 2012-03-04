@@ -48,7 +48,7 @@ int main(int argc, char *argv[]) {
         std::cout << std::fixed << lattice[j][inputs.nx/2].u << std::endl;
     }
 
-    write_gnuplot_file(inputs, lattice);
+    write_gnuplot_files(inputs, lattice);
 
     return EXIT_SUCCESS;
 }

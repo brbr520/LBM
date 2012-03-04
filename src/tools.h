@@ -15,7 +15,7 @@
 double get_max_norm(Input,
                     std::vector<std::vector<Node> > &,
                     std::vector<std::vector<Node> > &);
-void write_gnuplot_file(Input,
-                        std::vector<std::vector<Node> > &);
+void write_gnuplot_files(Input,
+                         std::vector<std::vector<Node> > &);
 
 #endif

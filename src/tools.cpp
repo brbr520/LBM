@@ -11,10 +11,10 @@
 
 #include <vector>
 #include <cmath>
-#include "input.h"
-#include "node.h"
 #include <iostream>
 #include <fstream>
+#include "input.h"
+#include "node.h"
 
 double get_max_norm(Input inputs,
                        std::vector<std::vector<Node> > &lattold,
@@ -31,25 +31,31 @@ double get_max_norm(Input inputs,
     return A;
 }
 
-void write_gnuplot_file(Input inputs,
-                        std::vector<std::vector<Node> > &lattice) {
+void write_gnuplot_files(Input inputs,
+                         std::vector<std::vector<Node> > &lattice) {
+
     std::ofstream myfile;
+    int x2 = inputs.nx/2;
     
     // data
-    myfile.open ("data.out");
-    myfile << "# y  u" << std::endl;
+    myfile.open("data.out");
+    myfile.precision(16);
     for (int j = 1; j < inputs.ny+1; j++) {
-        myfile.precision(16);
-        myfile << std::fixed << j-1 << " " << lattice[j][inputs.nx/2].u << std::endl;
+        myfile << std::fixed << j << " " << lattice[j][x2].u << std::endl;
     }
     myfile.close();
 
     // gnuplot
     myfile.open("gnuplot.in");
-    myfile << "set terminal x11" << std::endl;
+    myfile << "set terminal postscript enhanced" << std::endl;
+    myfile << "set output 'plot.ps'" << std::endl;
     myfile << "set title 'Centerline Velocity'" << std::endl;
     myfile << "set xlabel 'u'" << std::endl;
     myfile << "set ylabel 'y'" << std::endl;
+    myfile << "set yrange[0:" << inputs.ny+1 << "]" << std::endl;
+    myfile << "set ytics 1" << std::endl;
+    myfile << "set grid" << std::endl;
+    myfile << "unset key" << std::endl;
     myfile << "plot 'data.out' u 2:1 t 'u' w linespoints" << std::endl;
     myfile.close();
 }

@@ -3,3 +3,4 @@ bin/lbm
 bin/._*
 bin/data.out
 bin/gnuplot.in
+bin/plot.ps
