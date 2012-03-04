@@ -16,6 +16,7 @@
 
 class Node {
     public:
+    double u, v, rho;
     std::vector<double> f, feq;
     Node(Input inputs) {
         initialize(inputs);
@@ -25,7 +26,6 @@ class Node {
     void update_f(Input);
 
     private:
-    double u, v, rho;
     void initialize(Input);
     void calculate_feq(void);
     void calculate_density(void);

@@ -76,8 +76,8 @@ void Node::calculate_feq(void) {
                 break;
         }
         feq[i] = w*rho*(1.0+(cx*u+cy*v)/cs2+
-                            (cx*u+cy*v)*(cx*u+cy*v)/(2*cs2*cs2)-
-                            (u*u+v*v)/(2*cs2));
+                            (cx*u+cy*v)*(cx*u+cy*v)/(2.0*cs2*cs2)-
+                            (u*u+v*v)/(2.0*cs2));
     }
 }
 
@@ -160,12 +160,12 @@ void Node::update_f(Input inputs) {
             case 1:
             case 5:
             case 8:
-                f[i] += inputs.gradient/6;
+                f[i] += inputs.gradient/6.0;
                 break;
             case 3:
             case 6:
             case 7:
-                f[i] -= inputs.gradient/6;
+                f[i] -= inputs.gradient/6.0;
                 break;
             default:
                 break;
