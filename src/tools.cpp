@@ -14,27 +14,42 @@
 #include "input.h"
 #include "node.h"
 #include <iostream>
+#include <fstream>
 
-bool check_convergence(Input inputs,
+double get_max_norm(Input inputs,
                        std::vector<std::vector<Node> > &lattold,
                        std::vector<std::vector<Node> > &lattnew) {
 
-    // I think for convergence I can just monitor the density.
-    double row_norm(0.0), total_norm(0.0), temp(0.0);
+    // I'll just monitor the x-velocity via max-norm.
+    double A(0.0), B(0.0);
     for (int j = 1; j < inputs.ny+1; j++) {
         for (int i = 1; i < inputs.nx+1; i++) {
-            temp = lattnew[j][i].rho-lattold[j][i].rho;
-            row_norm += temp*temp;
+            B = fabs(lattnew[j][i].u-lattold[j][i].u);
+            if (B > A) A = B;
         }
-        total_norm += row_norm;
-        row_norm = 0.0;
     }
-    total_norm = sqrt(total_norm);
-    std::cout << total_norm << std::endl;
-    bool converged(false);
-    if (total_norm <= inputs.epsilon) {
-        converged = true;
-    }
-    return converged;
+    return A;
 }
 
+void write_gnuplot_file(Input inputs,
+                        std::vector<std::vector<Node> > &lattice) {
+    std::ofstream myfile;
+    
+    // data
+    myfile.open ("data.out");
+    myfile << "# y  u" << std::endl;
+    for (int j = 1; j < inputs.ny+1; j++) {
+        myfile.precision(16);
+        myfile << std::fixed << j-1 << " " << lattice[j][inputs.nx/2].u << std::endl;
+    }
+    myfile.close();
+
+    // gnuplot
+    myfile.open("gnuplot.in");
+    myfile << "set terminal x11" << std::endl;
+    myfile << "set title 'Centerline Velocity'" << std::endl;
+    myfile << "set xlabel 'u'" << std::endl;
+    myfile << "set ylabel 'y'" << std::endl;
+    myfile << "plot 'data.out' u 2:1 t 'u' w linespoints" << std::endl;
+    myfile.close();
+}

@@ -4,7 +4,7 @@
  * Defines a class called lattice whith definitions for various properties.
  *
  * Eric Chen (eric.chen@rwth-aachen.de)
- * Updated 16 February 2012
+ * Updated 4 March 2012
  *
  * Released under the MIT License, see included LICENSE file for more info.
  */
@@ -20,5 +20,8 @@ void stream(Input,
             std::vector<std::vector<Node> > &,
             std::vector<std::vector<Node> > &);
 void apply_forcing_term(Input, std::vector<std::vector<Node> > &);
+void copy_force_velocity(Input,
+                         std::vector<std::vector<Node> > &,
+                         std::vector<std::vector<Node> > &);
 
 #endif

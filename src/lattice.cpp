@@ -104,3 +104,17 @@ void apply_forcing_term(Input inputs,
         }
     }
 }
+
+// copy forces to updated time steps
+void copy_force_velocity(Input inputs,
+                 std::vector<std::vector<Node> > &copy_to,
+                 std::vector<std::vector<Node> > &copy_from) {
+    for (int j = 1; j < inputs.ny+1; j++) {
+        for (int i = 1; i < inputs.nx+1; i++) {
+            for (int k = 0; k < 9; k++) {
+                copy_to[j][i].f[k] = copy_from[j][i].f[k];
+            }
+            copy_from[j][i].u = copy_to[j][i].u;
+        }
+    }
+}

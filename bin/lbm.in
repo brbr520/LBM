@@ -10,5 +10,5 @@ umax    0.1
 omega   1.25
 
 # Solver Parameters
-nts_max 1000
-epsilon 0.00000001
+nts_max 100000
+epsilon 1e-8

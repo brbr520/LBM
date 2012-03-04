@@ -12,8 +12,10 @@
 #ifndef TOOLS_H 
 #define TOOLS_H
 
-bool check_convergence(Input inputs,
-                       std::vector<std::vector<Node> > &,
-                       std::vector<std::vector<Node> > &);
+double get_max_norm(Input,
+                    std::vector<std::vector<Node> > &,
+                    std::vector<std::vector<Node> > &);
+void write_gnuplot_file(Input,
+                        std::vector<std::vector<Node> > &);
 
 #endif
