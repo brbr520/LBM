@@ -4,7 +4,7 @@
  * This is a simple Lattice Boltzmann solver written for a class.
  *
  * Eric Chen (eric.chen@rwth-aachen.de)
- * Updated 4 March 2012
+ * Updated 5 March 2012
  *
  * Released under the MIT License, see included LICENSE file for more info.
  */
@@ -22,6 +22,16 @@ int main(int argc, char *argv[]) {
     std::vector<std::vector<Node> > lattice = initialize_lattice(inputs);
     std::vector<std::vector<Node> > lattnew = initialize_lattice(inputs);
     double converged(1.0);
+
+    // testing porosity
+    set_porosity(inputs, lattice);
+    set_porosity(inputs, lattnew);
+    for (int j = 1; j < inputs.ny+1; j++) {
+        for (int i = 1; i < inputs.nx+1; i++) {
+            std::cout << lattice[j][i].liquid;
+        }
+        std::cout << std::endl;
+    }
 
     // time loop
     for (int timestep = 0; timestep < inputs.nts_max; timestep++) {

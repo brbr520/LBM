@@ -4,7 +4,7 @@
  * Defines a class called node whith definitions for various properties.
  *
  * Eric Chen (eric.chen@rwth-aachen.de)
- * Updated 16 February 2012
+ * Updated 4 March 2012
  *
  * Released under the MIT License, see included LICENSE file for more info.
  */
@@ -22,6 +22,7 @@ void Node::initialize(Input inputs) {
     feq.resize(9);
     calculate_feq();
     f = feq;
+    liquid = 1;
 }
 
 // calculate feq

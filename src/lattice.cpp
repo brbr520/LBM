@@ -4,7 +4,7 @@
  * Defines a class called lattice whith definitions for various properties.
  *
  * Eric Chen (eric.chen@rwth-aachen.de)
- * Updated 4 March 2012
+ * Updated 5 March 2012
  *
  * Released under the MIT License, see included LICENSE file for more info.
  */
@@ -63,6 +63,22 @@ void set_boundaries(Input inputs,
     lattice[0][inputs.nx+1].f[7] = lattice[1][inputs.nx].f[5];
     lattice[inputs.ny+1][0].f[5] = lattice[inputs.ny][1].f[7];
     lattice[inputs.ny+1][inputs.nx+1].f[6] = lattice[inputs.ny][inputs.nx].f[8];
+
+    // porosity boundaries
+    for (int j = 1; j < inputs.ny+1; j++) {
+        for (int i = 1; i < inputs.nx+1; i++) {
+            if (lattice[j][i].liquid == 0) {  // if solid
+                lattice[j][i].f[1] = lattice[j  ][i+1].f[3];
+                lattice[j][i].f[2] = lattice[j-1][i  ].f[4];
+                lattice[j][i].f[3] = lattice[  j][i-1].f[1];
+                lattice[j][i].f[4] = lattice[j+1][i  ].f[2];
+                lattice[j][i].f[5] = lattice[j-1][i+1].f[7];
+                lattice[j][i].f[6] = lattice[j-1][i-1].f[8];
+                lattice[j][i].f[7] = lattice[j+1][i-1].f[5];
+                lattice[j][i].f[8] = lattice[j+1][i+1].f[6];
+            }
+        }
+    }
 }
 
 // catch-all function to loop over every node and update properties
@@ -70,8 +86,10 @@ void update_nodes(Input inputs,
                   std::vector<std::vector<Node> > &lattice) {
     for (int j = 1; j < inputs.ny+1; j++) {
         for (int i = 1; i < inputs.nx+1; i++) {
-            lattice[j][i].update_macroscopic_properties();
-            lattice[j][i].collide(inputs);
+            if (lattice[j][i].liquid == 1) {
+                lattice[j][i].update_macroscopic_properties();
+                lattice[j][i].collide(inputs);
+            }
         }
     }
 }
@@ -82,15 +100,17 @@ void stream(Input inputs,
             std::vector<std::vector<Node> > &lattnew) {
     for (int j = 1; j < inputs.ny+1; j++) {
         for (int i = 1; i < inputs.nx+1; i++) {
-            lattnew[j][i].f[0] = lattold[j  ][i  ].f[0];
-            lattnew[j][i].f[1] = lattold[j  ][i-1].f[1];
-            lattnew[j][i].f[2] = lattold[j+1][i  ].f[2];
-            lattnew[j][i].f[3] = lattold[j  ][i+1].f[3];
-            lattnew[j][i].f[4] = lattold[j-1][i  ].f[4];
-            lattnew[j][i].f[5] = lattold[j+1][i-1].f[5];
-            lattnew[j][i].f[6] = lattold[j+1][i+1].f[6];
-            lattnew[j][i].f[7] = lattold[j-1][i+1].f[7];
-            lattnew[j][i].f[8] = lattold[j-1][i-1].f[8];
+            if (lattold[j][i].liquid == 1) {
+                lattnew[j][i].f[0] = lattold[j  ][i  ].f[0];
+                lattnew[j][i].f[1] = lattold[j  ][i-1].f[1];
+                lattnew[j][i].f[2] = lattold[j+1][i  ].f[2];
+                lattnew[j][i].f[3] = lattold[j  ][i+1].f[3];
+                lattnew[j][i].f[4] = lattold[j-1][i  ].f[4];
+                lattnew[j][i].f[5] = lattold[j+1][i-1].f[5];
+                lattnew[j][i].f[6] = lattold[j+1][i+1].f[6];
+                lattnew[j][i].f[7] = lattold[j-1][i+1].f[7];
+                lattnew[j][i].f[8] = lattold[j-1][i-1].f[8];
+            }
         }
     }
 }
@@ -100,7 +120,9 @@ void apply_forcing_term(Input inputs,
                         std::vector<std::vector<Node> > &lattice) {
     for (int j = 1; j < inputs.ny+1; j++) {
         for (int i = 1; i < inputs.nx+1; i++) {
-            lattice[j][i].update_f(inputs);
+            if (lattice[j][i].liquid == 1) {
+                lattice[j][i].update_f(inputs);
+            }
         }
     }
 }
@@ -111,10 +133,36 @@ void copy_force_velocity(Input inputs,
                  std::vector<std::vector<Node> > &copy_from) {
     for (int j = 1; j < inputs.ny+1; j++) {
         for (int i = 1; i < inputs.nx+1; i++) {
-            for (int k = 0; k < 9; k++) {
-                copy_to[j][i].f[k] = copy_from[j][i].f[k];
+            if (copy_to[j][i].liquid == 1) {
+                for (int k = 0; k < 9; k++) {
+                    copy_to[j][i].f[k] = copy_from[j][i].f[k];
+                }
+                copy_from[j][i].u = copy_to[j][i].u;
             }
-            copy_from[j][i].u = copy_to[j][i].u;
         }
     }
+}
+
+// porosity function caller
+void set_porosity(Input inputs,
+                  std::vector<std::vector<Node> > &lattice) {
+
+    // circle
+    if (inputs.porosity == "circle") {
+        double radius, imax, jmax, isq, jsq;
+        for (int j = 1; j < inputs.ny+1; j++) {
+            for (int i = 1; i < inputs.nx+1; i++) {
+                imax = inputs.nx/2.0;
+                jmax = inputs.ny/2.0;
+                isq  = ((i-imax)/inputs.nx)*((i-imax)/inputs.nx);
+                jsq  = ((j-jmax)/inputs.ny)*((j-jmax)/inputs.ny);
+                radius = isq+jsq;
+                if (radius < inputs.radius) lattice[j][i].liquid = 0;
+            }
+        }
+    }
+
+    // square
+
+    // random
 }

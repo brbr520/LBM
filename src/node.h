@@ -4,7 +4,7 @@
  * Defines a class called node whith definitions for various properties.
  *
  * Eric Chen (eric.chen@rwth-aachen.de)
- * Updated 16 February 2012
+ * Updated 4 March 2012
  *
  * Released under the MIT License, see included LICENSE file for more info.
  */
@@ -16,6 +16,7 @@
 
 class Node {
     public:
+    int liquid;
     double u, v, rho;
     std::vector<double> f, feq;
     Node(Input inputs) {

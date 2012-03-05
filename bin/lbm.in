@@ -1,5 +1,5 @@
 # Mesh Parameters
-nx      10
+nx      20
 ny      20
 
 # Fluid Parameters
@@ -12,3 +12,9 @@ omega   1.25
 # Solver Parameters
 nts_max 100000
 epsilon 1e-8
+
+# Porosity
+#porosity none
+porosity circle 0.05    # circle w/ radius
+#porosity square 0.05    # square w/ radius
+#porosity random 0.05    # random w/ chance

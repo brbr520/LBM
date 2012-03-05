@@ -4,7 +4,7 @@
  * Various tools for my Lattice Boltzmann solver.
  *
  * Eric Chen (eric.chen@rwth-aachen.de)
- * Updated 16 February 2012
+ * Updated 5 March 2012
  *
  * Released under the MIT License, see included LICENSE file for more info.
  */
@@ -20,12 +20,16 @@ double get_max_norm(Input inputs,
                        std::vector<std::vector<Node> > &lattold,
                        std::vector<std::vector<Node> > &lattnew) {
 
-    // I'll just monitor the x-velocity via max-norm.
-    double A(0.0), B(0.0);
+    // Monitor max-norm of total velocity.
+    double A(0.0), B(0.0), u(0.0), v(0.0);
     for (int j = 1; j < inputs.ny+1; j++) {
         for (int i = 1; i < inputs.nx+1; i++) {
-            B = fabs(lattnew[j][i].u-lattold[j][i].u);
-            if (B > A) A = B;
+            if (lattold[j][i].liquid == 1) {
+                u = lattnew[j][i].u-lattold[j][i].u;
+                v = lattnew[j][i].v-lattold[j][i].v;
+                B = sqrt(u*u+v*v);
+                if (B > A) A = B;
+            }
         }
     }
     return A;

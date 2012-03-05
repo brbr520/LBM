@@ -4,13 +4,14 @@
  * Parses the LBM solver input file.
  *
  * Eric Chen (eric.chen@rwth-aachen.de)
- * Updated 15 February 2012
+ * Updated 5 March 2012
  *
  * Released under the MIT License, see included LICENSE file for more info.
  */
 
 #ifndef INPUT_H
 #define INPUT_H
+#include <string>
 
 class Input {
     public:
@@ -26,6 +27,9 @@ class Input {
     // solver parameters
     int nts_max;        // maximum number of time steps before abort
     double epsilon;     // convergence criteria
+    // porosity parameters
+    std::string porosity;   // porosity function to call
+    double radius;          // radius of porosity circle/square/etc
     // derived values
     double gradient;    // pressure gradient
 

@@ -4,7 +4,7 @@
  * Various tools for my Lattice Boltzmann solver.
  *
  * Eric Chen (eric.chen@rwth-aachen.de)
- * Updated 16 February 2012
+ * Updated 5 March 2012
  *
  * Released under the MIT License, see included LICENSE file for more info.
  */
