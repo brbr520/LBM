@@ -40,7 +40,6 @@ int main(int argc, char *argv[]) {
         stream(inputs, lattice, lattnew);
         apply_forcing_term(inputs, lattnew);
 
-
         converged = get_max_norm(inputs, lattice, lattnew);
         if ((converged <= inputs.epsilon) && timestep != 0) {
             break;
@@ -53,12 +52,13 @@ int main(int argc, char *argv[]) {
         std::cout << timestep << " " << converged << std::endl;
     }
 
-    for (int j = 1; j < inputs.ny+1; j++) {
-        std::cout.precision(16);
-        std::cout << std::fixed << lattice[j][inputs.nx/2].u << std::endl;
-    }
+//    for (int j = 1; j < inputs.ny+1; j++) {
+//        std::cout.precision(16);
+//        std::cout << std::fixed << lattice[j][inputs.nx/2].u << std::endl;
+//    }
 
     write_gnuplot_files(inputs, lattice);
+    write_matlab_files(inputs, lattice);
 
     return EXIT_SUCCESS;
 }

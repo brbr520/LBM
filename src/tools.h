@@ -17,5 +17,7 @@ double get_max_norm(Input,
                     std::vector<std::vector<Node> > &);
 void write_gnuplot_files(Input,
                          std::vector<std::vector<Node> > &);
+void write_matlab_files(Input,
+                        std::vector<std::vector<Node> > &);
 
 #endif

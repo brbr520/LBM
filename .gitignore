@@ -4,3 +4,4 @@ bin/._*
 bin/data.out
 bin/gnuplot.in
 bin/plot.ps
+bin/matlab.m

@@ -157,12 +157,26 @@ void set_porosity(Input inputs,
                 isq  = ((i-imax)/inputs.nx)*((i-imax)/inputs.nx);
                 jsq  = ((j-jmax)/inputs.ny)*((j-jmax)/inputs.ny);
                 radius = isq+jsq;
-                if (radius < inputs.radius) lattice[j][i].liquid = 0;
+                if (radius < inputs.radius) {
+                    lattice[j][i].u = 0.0;
+                    lattice[j][i].v = 0.0;
+                    lattice[j][i].liquid = 0;
+                }
             }
         }
     }
 
     // square
+    if (inputs.porosity == "square") {
+        int icenter((inputs.nx+2)/2), jcenter((inputs.ny+2)/2);
+        for (int j = jcenter-inputs.radius; j < jcenter+inputs.radius; j++) {
+            for (int i = icenter-inputs.radius; i < icenter+inputs.radius; i++) {
+                lattice[j][i].u = 0.0;
+                lattice[j][i].v = 0.0;
+                lattice[j][i].liquid = 0;
+            }
+        }
+    }
 
     // random
 }
