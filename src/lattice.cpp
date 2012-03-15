@@ -68,14 +68,14 @@ void set_boundaries(Input inputs,
     for (int j = 1; j < inputs.ny+1; j++) {
         for (int i = 1; i < inputs.nx+1; i++) {
             if (lattice[j][i].liquid == 0) {  // if solid
-                lattice[j][i].f[1] = lattice[j  ][i-1].f[3];
-                lattice[j][i].f[2] = lattice[j+1][i  ].f[4];
-                lattice[j][i].f[3] = lattice[  j][i+1].f[1];
-                lattice[j][i].f[4] = lattice[j-1][i  ].f[2];
-                lattice[j][i].f[5] = lattice[j+1][i-1].f[7];
-                lattice[j][i].f[6] = lattice[j+1][i+1].f[8];
-                lattice[j][i].f[7] = lattice[j-1][i+1].f[5];
-                lattice[j][i].f[8] = lattice[j-1][i-1].f[6];
+                lattice[j][i].f[1] = lattice[j  ][i+1].f[3];
+                lattice[j][i].f[2] = lattice[j-1][i  ].f[4];
+                lattice[j][i].f[3] = lattice[  j][i-1].f[1];
+                lattice[j][i].f[4] = lattice[j+1][i  ].f[2];
+                lattice[j][i].f[5] = lattice[j-1][i+1].f[7];
+                lattice[j][i].f[6] = lattice[j-1][i-1].f[8];
+                lattice[j][i].f[7] = lattice[j+1][i-1].f[5];
+                lattice[j][i].f[8] = lattice[j+1][i+1].f[6];
             }
         }
     }
@@ -179,4 +179,7 @@ void set_porosity(Input inputs,
     }
 
     // random
+    if (inputs.porosity == "random") {
+
+    }
 }

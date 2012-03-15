@@ -92,20 +92,27 @@ void write_matlab_files(Input inputs,
     myfile << "];" << std::endl;
 
     // matlab
-    myfile << "quiver(1:length(u), 1:length(v), u, v)" << std::endl;
+    // The axis for y is reversed because of my domain numbering, where
+    // j = 0 starts at the top, such that (0, 0) is the top left corner.
+    myfile << "quiver(1:" << inputs.nx << ", " << inputs.ny << ":-1:1, u, v)" << std::endl;
+    myfile << "xlabel('x');" << std::endl;
+    myfile << "ylabel('y');" << std::endl;
+    myfile << "title('Velocity');" << std::endl;
+    myfile << "axis equal;" << std::endl;
+    myfile << "axis([1 " << inputs.nx << " 1 " << inputs.ny << " ]);" << std::endl;
     myfile.close();
 
-//    // gnuplot
-//    myfile.open("gnuplot.in");
-//    myfile << "set terminal postscript enhanced" << std::endl;
-//    myfile << "set output 'plot.ps'" << std::endl;
-//    myfile << "set title 'Centerline Velocity'" << std::endl;
-//    myfile << "set xlabel 'u'" << std::endl;
-//    myfile << "set ylabel 'y'" << std::endl;
-//    myfile << "set yrange[0:" << inputs.ny+1 << "]" << std::endl;
-//    myfile << "set ytics 1" << std::endl;
-//    myfile << "set grid" << std::endl;
-//    myfile << "unset key" << std::endl;
-//    myfile << "plot 'data.out' u 2:1 t 'u' w linespoints" << std::endl;
-//    myfile.close();
+    // gnuplot
+    myfile.open("gnuplot.in");
+    myfile << "set terminal postscript enhanced" << std::endl;
+    myfile << "set output 'plot.ps'" << std::endl;
+    myfile << "set title 'Centerline Velocity'" << std::endl;
+    myfile << "set xlabel 'u'" << std::endl;
+    myfile << "set ylabel 'y'" << std::endl;
+    myfile << "set yrange[0:" << inputs.ny+1 << "]" << std::endl;
+    myfile << "set ytics 1" << std::endl;
+    myfile << "set grid" << std::endl;
+    myfile << "unset key" << std::endl;
+    myfile << "plot 'data.out' u 2:1 t 'u' w linespoints" << std::endl;
+    myfile.close();
 }
